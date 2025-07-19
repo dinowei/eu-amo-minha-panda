@@ -1,16 +1,60 @@
-.foto-cascata {
-  position: absolute;
-  top: -150px;
-  width: 120px;
-  border-radius: 10px;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-  animation-name: cair;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
+/* Estilo básico e cores principais */
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: linear-gradient(to bottom, #e0f7fa, #ffffff); /* azul claro para branco */
+    font-family: 'Arial', sans-serif;
 }
 
-@keyframes cair {
-  to {
-    top: 100vh;
-  }
+#centerText {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: black;
+    font-size: 3rem;
+    z-index: 1;
+    text-align: center;
+    pointer-events: none;
+}
+
+img {
+    position: absolute;
+    max-width: 100px;  /* limita tamanho das imagens */
+    width: auto;
+    height: auto;
+    pointer-events: none;
+}
+
+#playBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: white;
+    color: black;
+    border: 2px solid #4CAF50; /* verde */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#playBtn:hover {
+    background-color: #a8e6a1; /* tom claro de verde */
+}
+
+@media (max-width: 600px) {
+    #centerText {
+        font-size: 2rem;
+    }
+    #playBtn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
 }
