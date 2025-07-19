@@ -24,8 +24,8 @@ function criarImagem() {
    img.src = imagens[Math.floor(Math.random() * imagens.length)];
    // posição horizontal aleatória:
    img.style.left = Math.random() * (window.innerWidth - 80) + 'px';
-   // duração aleatória entre 4 e 7 segundos:
-   const duracao = (Math.random() * 3 + 4).toFixed(2);
+   // duração aleatória entre 6 e 9 segundos:
+   const duracao = (Math.random() * 5 + 10).toFixed(2);
    img.style.animationDuration = `${duracao}s`;
    // envio pro DOM
    document.body.appendChild(img);
