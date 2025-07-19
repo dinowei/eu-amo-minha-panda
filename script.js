@@ -1,4 +1,3 @@
-// Array com caminhos das suas PNGs (10 imagens)
 const imagens = [
   'imagens/img1.png',
   'imagens/img2.png',
@@ -12,40 +11,31 @@ const imagens = [
   'imagens/img10.png'
 ];
 
-// Cria uma única imagem caindo
 function criarImagem() {
   const img = document.createElement('img');
   img.src = imagens[Math.floor(Math.random() * imagens.length)];
-  img.style.left = Math.random() * (window.innerWidth - 100) + 'px';
-  img.style.top = '-100px';
-  img.style.zIndex = Math.random() < 0.5 ? 0 : 0.5; // 0 atrás, 0.5 na frente
+  // posição horizontal aleatória:
+  img.style.left = Math.random() * (window.innerWidth - 80) + 'px';
+  // duração aleatória entre 4 e 7 segundos:
+  const duracao = (Math.random() * 3 + 4).toFixed(2);
+  img.style.animationDuration = `${duracao}s`;
+  // envio pro DOM
   document.body.appendChild(img);
-
-  const velocidade = 1 + Math.random() * 2; // entre 1 e 3
-
-  function animate() {
-    let y = parseFloat(img.style.top);
-    if (y < window.innerHeight) {
-      img.style.top = (y + velocidade) + 'px';
-      requestAnimationFrame(animate);
-    } else {
-      img.remove();
-    }
-  }
-  requestAnimationFrame(animate);
+  // quando acabar a animação, remove o elemento:
+  img.addEventListener('animationend', () => img.remove());
 }
 
-// Loop infinito de criação de imagens
+// gera imagens indefinidamente, a cada 300–800ms:
 function iniciarQueda() {
   criarImagem();
-  setTimeout(iniciarQueda, Math.random() * 1000 + 200);
+  setTimeout(iniciarQueda, Math.random() * 500 + 300);
 }
 
-// Quando a página carrega, dispara a queda
-window.onload = iniciarQueda;
-
-// Controla play/pause do áudio no clique
-document.getElementById('pandaPlay').addEventListener('click', () => {
-  const audio = document.getElementById('audio');
-  audio.paused ? audio.play() : audio.pause();
-});
+window.onload = () => {
+  iniciarQueda();
+  // play/pause no clique do botão panda
+  document.getElementById('pandaPlay').addEventListener('click', () => {
+    const audio = document.getElementById('audio');
+    audio.paused ? audio.play() : audio.pause();
+  });
+};
