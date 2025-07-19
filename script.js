@@ -39,7 +39,11 @@ function iniciarQueda() {
 
 window.onload = iniciarQueda;
 
-document.getElementById('playBtn').addEventListener('click', function() {
-    const audio = document.getElementById('audio');
-    audio.play();
+document.getElementById('pandaPlay').addEventListener('click', function() {
+    var audio = document.getElementById('audio');
+    if (audio.paused) {
+        audio.play();
+    } else {
+        audio.pause();
+    }
 });
