@@ -1,12 +1,15 @@
 .foto-cascata {
   position: absolute;
-  top: -200px;
-  left: 50vw; /* posição horizontal */
-  animation: fall 3s linear infinite;
-  width: 150px;
+  top: -150px;
+  width: 120px;
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+  animation-name: cair;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 
-@keyframes fall {
+@keyframes cair {
   to {
     top: 100vh;
   }
