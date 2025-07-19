@@ -1,9 +1,8 @@
-/* Estilo básico e cores principais */
 body, html {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background: linear-gradient(to bottom, #e0f7fa, #ffffff); /* azul claro para branco */
+    background: linear-gradient(to bottom, #e0f7fa, #ffffff);
     font-family: 'Arial', sans-serif;
 }
 
@@ -21,7 +20,7 @@ body, html {
 
 img {
     position: absolute;
-    max-width: 100px;  /* limita tamanho das imagens */
+    max-width: 100px;
     width: auto;
     height: auto;
     pointer-events: none;
@@ -33,7 +32,7 @@ img {
     right: 20px;
     background-color: white;
     color: black;
-    border: 2px solid #4CAF50; /* verde */
+    border: 2px solid #4CAF50;
     border-radius: 50%;
     width: 60px;
     height: 60px;
@@ -45,7 +44,7 @@ img {
 }
 
 #playBtn:hover {
-    background-color: #a8e6a1; /* tom claro de verde */
+    background-color: #a8e6a1;
 }
 
 @media (max-width: 600px) {
