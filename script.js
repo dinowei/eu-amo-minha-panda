@@ -13,29 +13,34 @@ const imagens = [
 
 function criarImagem() {
   const img = document.createElement('img');
+  img.classList.add('falling');
   img.src = imagens[Math.floor(Math.random() * imagens.length)];
-  // posição horizontal aleatória:
   img.style.left = Math.random() * (window.innerWidth - 80) + 'px';
-  // duração aleatória entre 4 e 7 segundos:
-  const duracao = (Math.random() * 3 + 4).toFixed(2);
+  img.style.top = '-100px';
+
+  // Duração da animação (mais longa = mais suave)
+  const duracao = (Math.random() * 5 + 5).toFixed(2); // de 5 a 10 segundos
   img.style.animationDuration = `${duracao}s`;
-  // envio pro DOM
+
   document.body.appendChild(img);
-  // quando acabar a animação, remove o elemento:
-  img.addEventListener('animationend', () => img.remove());
+
+  img.addEventListener('animationend', () => {
+    img.remove();
+  });
 }
 
-// gera imagens indefinidamente, a cada 300–800ms:
 function iniciarQueda() {
   criarImagem();
-  setTimeout(iniciarQueda, Math.random() * 500 + 300);
+  setTimeout(iniciarQueda, Math.random() * 800 + 200); // 200ms a 1s
 }
 
 window.onload = () => {
   iniciarQueda();
-  // play/pause no clique do botão panda
-  document.getElementById('pandaPlay').addEventListener('click', () => {
-    const audio = document.getElementById('audio');
+
+  const botao = document.getElementById('pandaPlay');
+  const audio = document.getElementById('audio');
+
+  botao.addEventListener('click', () => {
     audio.paused ? audio.play() : audio.pause();
   });
 };
