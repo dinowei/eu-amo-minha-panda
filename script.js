@@ -40,7 +40,44 @@ window.onload = () => {
   const botao = document.getElementById('pandaPlay');
   const audio = document.getElementById('audio');
 
+  // Tentar tocar automaticamente (pode ser bloqueado pelo navegador)
+  audio.play().catch(e => {
+    console.log('Autoplay bloqueado pelo navegador. Clique no panda para tocar a música!');
+  });
+
   botao.addEventListener('click', () => {
-    audio.paused ? audio.play() : audio.pause();
+    if (audio.paused) {
+      audio.play().then(() => {
+        console.log('🎵 Música tocando!');
+        botao.classList.add('playing');
+      }).catch(e => {
+        console.log('❌ Erro ao tocar música:', e);
+        alert('Erro ao reproduzir música. Verifique se o arquivo existe.');
+      });
+    } else {
+      audio.pause();
+      console.log('⏸️ Música pausada!');
+      botao.classList.remove('playing');
+    }
+  });
+
+  // Feedback visual quando a música está tocando
+  audio.addEventListener('play', () => {
+    botao.classList.add('playing');
+    console.log('🎶 Áudio iniciado!');
+  });
+
+  audio.addEventListener('pause', () => {
+    botao.classList.remove('playing');
+    console.log('⏹️ Áudio pausado!');
+  });
+
+  // Verificar se o áudio carregou corretamente
+  audio.addEventListener('loadeddata', () => {
+    console.log('✅ Áudio carregado com sucesso!');
+  });
+
+  audio.addEventListener('error', (e) => {
+    console.log('❌ Erro ao carregar áudio:', e);
   });
 };
