@@ -42,4 +42,22 @@ body {
 
 audio {
     display: none;
+}/* ======================================================= */
+/* Faz as <img> caírem de cima para baixo via CSS puro     */
+body img {
+  /* já definimos position:absolute no JS, mas reforça aqui */
+  position: absolute;
+  width: 80px;             /* ou ajuste o tamanho que quiser */
+  pointer-events: none;
+  animation-name: fall;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
 }
+
+/* keyframes que movem a imagem de top:-100px até sair da view */
+@keyframes fall {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(120vh); }
+}
+/* ======================================================= */
+
