@@ -33,18 +33,36 @@ body {
 #pandaPlay {
     cursor: pointer;
     width: 100px;
-    transition: transform 0.2s;
+    transition: all 0.3s ease;
+    border-radius: 50%;
 }
 
 #pandaPlay:active {
     transform: scale(0.95);
 }
 
+#pandaPlay:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(76, 175, 80, 0.5);
+}
+
+/* Indicador visual quando música está tocando */
+#pandaPlay.playing {
+    animation: pulse 2s infinite;
+    box-shadow: 0 0 30px rgba(76, 175, 80, 0.8);
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
 audio {
     display: none;
 }/* ======================================================= */
 /* Faz as <img> caírem de cima para baixo via CSS puro     */
-body img {
+body img.falling {
   /* já definimos position:absolute no JS, mas reforça aqui */
   position: absolute;
   width: 80px;             /* ou ajuste o tamanho que quiser */
@@ -60,4 +78,3 @@ body img {
   100% { transform: translateY(120vh); }
 }
 /* ======================================================= */
-
