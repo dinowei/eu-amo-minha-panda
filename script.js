@@ -16,8 +16,11 @@ window.onload = function() {
     const img = document.createElement('img');
     img.src = src;
     img.className = 'foto-cascata';
-    img.style.left = `${10 + i*8}vw`; // espalha as imagens na horizontal
-    img.style.animationDelay = `${i*0.5}s`; // delay para cair em cascata
+    // Espalha as imagens horizontalmente
+    img.style.left = `${10 + i * 8}vw`;
+    // Delay para cascata
+    img.style.animationDuration = '4s';
+    img.style.animationDelay = `${i * 0.5}s`;
     document.body.appendChild(img);
   });
-}
+};
