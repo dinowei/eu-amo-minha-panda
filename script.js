@@ -1,3 +1,4 @@
+// Lista de PNGs para a "chuva"
 const imagens = [
   'imagens/img1.png',
   'imagens/img2.png',
@@ -11,49 +12,29 @@ const imagens = [
   'imagens/img10.png'
 ];
 
+// Cria e anima uma imagem caindo
 function criarImagem() {
   const img = document.createElement('img');
-   function criarImagem() {
--  const img = document.createElement('img');
-+  const img = document.createElement('img');
-
-+  // **FORÇA a imagem a usar posicionamento absoluto e começar fora da tela**
-+  img.style.position = 'absolute';
-+  img.style.top      = '-100px';
-
-   img.src = imagens[Math.floor(Math.random() * imagens.length)];
-   // posição horizontal aleatória:
-   img.style.left = Math.random() * (window.innerWidth - 80) + 'px';
-   // duração aleatória entre 4 e 5 segundos:
-   const duracao = (Math.random() * 3 + 4).toFixed(2);
-   img.style.animationDuration = `${duracao}s`;
-   // envio pro DOM
-   document.body.appendChild(img);
-   // quando acabar a animação, remove o elemento:
-   img.addEventListener('animationend', () => img.remove());
- }
-
   img.src = imagens[Math.floor(Math.random() * imagens.length)];
-  // posição horizontal aleatória:
-  img.style.left = Math.random() * (window.innerWidth - 80) + 'px';
-  // duração aleatória entre 4 e 7 segundos:
-  const duracao = (Math.random() * 3 + 4).toFixed(2);
-  img.style.animationDuration = `${duracao}s`;
-  // envio pro DOM
+  img.style.position = 'absolute';
+  img.style.top      = '-100px';
+  img.style.left     = Math.random() * (window.innerWidth - 80) + 'px';
+  // duração fixa no CSS (14s), mas se quiser variar:
+  // const dur = (Math.random() * 6 + 12).toFixed(2);
+  // img.style.animationDuration = `${dur}s`;
   document.body.appendChild(img);
-  // quando acabar a animação, remove o elemento:
   img.addEventListener('animationend', () => img.remove());
 }
 
-// gera imagens indefinidamente, a cada 300–800ms:
+// Inicia a chuva em loop infinito, a cada 1–2s
 function iniciarQueda() {
   criarImagem();
-  setTimeout(iniciarQueda, Math.random() * 500 + 300);
+  setTimeout(iniciarQueda, Math.random() * 1000 + 1000);
 }
 
+// Liga tudo quando a página carrega
 window.onload = () => {
   iniciarQueda();
-  // play/pause no clique do botão panda
   document.getElementById('pandaPlay').addEventListener('click', () => {
     const audio = document.getElementById('audio');
     audio.paused ? audio.play() : audio.pause();
