@@ -22,6 +22,7 @@
     <span id="navUser" class="nav-user"></span>
   </nav>
 
+  <!-- HERO -->
   <section id="hero">
     <div id="centerText">Eu amo a minha Panda 🐼</div>
     <div id="pandaContainer">
@@ -29,23 +30,168 @@
       <img id="pandaPlay" src="imagens/panda.png" alt="Panda">
       <p class="panda-hint">clique para tocar 🎵</p>
     </div>
-    <div class="scroll-arrow" onclick="document.getElementById('galeria').scrollIntoView({behavior:'smooth'})">
+    <div class="scroll-arrow" onclick="document.getElementById('destaque').scrollIntoView({behavior:'smooth'})">
       <span>↓</span>
       <p>role pra ver mais</p>
     </div>
   </section>
 
-  <section id="galeria">
-    <h2 class="section-title reveal">📸 Nossas Memórias</h2>
-    <div id="fotoGrid" class="foto-grid">
-      <label class="foto-upload-card reveal" id="uploadCard">
-        <span>+</span>
-        <p>Adicionar foto</p>
-        <input type="file" id="fileInput" accept="image/*" style="display:none">
-      </label>
+  <!-- FOTO DESTAQUE -->
+  <section id="destaque">
+    <div class="destaque-wrapper reveal">
+      <img src="imagens/FOTO PRINCIPAL.jpg" alt="Nossa foto especial" class="destaque-img">
+      <div class="destaque-overlay">
+        <p class="destaque-text">💚 Nossa história</p>
+      </div>
     </div>
   </section>
 
+  <!-- GALERIA MOSAICO -->
+  <section id="galeria">
+    <h2 class="section-title reveal">📸 Nossas Memórias</h2>
+    <div class="mosaic">
+
+      <div class="mosaic-row">
+        <div class="foto-card grande reveal"><img src="imagens/IMG_20251120_195121.jpg" alt="">
+          <div class="glow-border"></div>
+        </div>
+        <div class="mosaic-col">
+          <div class="foto-card reveal"><img src="imagens/IMG_20251226_125430.jpg" alt="">
+            <div class="glow-border"></div>
+          </div>
+          <div class="foto-card reveal"><img src="imagens/IMG_20251120_195118.jpg" alt="">
+            <div class="glow-border"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mosaic-row tres">
+        <div class="foto-card reveal"><img src="imagens/IMG_20251120_194637.jpg" alt="">
+          <div class="glow-border"></div>
+        </div>
+        <div class="foto-card reveal"><img src="imagens/IMG_20251120_194638.jpg" alt="">
+          <div class="glow-border"></div>
+        </div>
+        <div class="foto-card reveal"><img src="imagens/IMG_20250917_074544.jpg" alt="">
+          <div class="glow-border"></div>
+        </div>
+      </div>
+
+      <div class="mosaic-row invertida">
+        <div class="mosaic-col">
+          <div class="foto-card reveal"><img src="imagens/IMG_20250917_074553.jpg" alt="">
+            <div class="glow-border"></div>
+          </div>
+          <div class="foto-card reveal"><img src="imagens/IMG_20250703_073043.jpg" alt="">
+            <div class="glow-border"></div>
+          </div>
+        </div>
+        <div class="foto-card grande reveal"><img src="imagens/IMG_20250703_073242.jpg" alt="">
+          <div class="glow-border"></div>
+        </div>
+      </div>
+
+      <div class="mosaic-row quatro">
+        <div class="foto-card reveal"><img src="imagens/IMG_20250703_073248.jpg" alt="">
+          <div class="glow-border"></div>
+        </div>
+        <div class="foto-card reveal"><img src="imagens/IMG_20250703_073253.jpg" alt="">
+          <div class="glow-border"></div>
+        </div>
+        <div class="foto-card reveal"><img src="imagens/IMG_20240810_124703.jpg" alt="">
+          <div class="glow-border"></div>
+        </div>
+        <div class="foto-card reveal"><img src="imagens/IMG_20240810_124722.jpg" alt="">
+          <div class="glow-border"></div>
+        </div>
+      </div>
+
+      <div class="mosaic-row">
+        <div class="foto-card grande reveal"><img src="imagens/IMG_20240521_221457.jpg" alt="">
+          <div class="glow-border"></div>
+        </div>
+        <div class="mosaic-col">
+          <div class="foto-card reveal"><img src="imagens/IMG_20240330_203610.jpg" alt="">
+            <div class="glow-border"></div>
+          </div>
+          <div class="foto-card reveal"><img src="imagens/IMG_20240316_173019.jpg" alt="">
+            <div class="glow-border"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mosaic-row tres">
+        <div class="foto-card reveal"><img src="imagens/IMG_20240126_074256.jpg" alt="">
+          <div class="glow-border"></div>
+        </div>
+        <div class="foto-card reveal"><img src="imagens/IMG_20230829_072816.jpg" alt="">
+          <div class="glow-border"></div>
+        </div>
+        <div class="foto-card reveal"><img src="imagens/IMG_20230501_191756.jpg" alt="">
+          <div class="glow-border"></div>
+        </div>
+      </div>
+
+      <div class="mosaic-row quatro">
+        <div class="foto-card reveal"><img src="imagens/IMG_20221109_131539.jpg" alt="">
+          <div class="glow-border"></div>
+        </div>
+        <div class="foto-card reveal"><img src="imagens/IMG_20221109_131536.jpg" alt="">
+          <div class="glow-border"></div>
+        </div>
+        <div class="foto-card reveal"><img src="imagens/IMG-20230924-WA0044.jpg" alt="">
+          <div class="glow-border"></div>
+        </div>
+        <div class="foto-card reveal"><img src="imagens/IMG-20230503-WA0015.jpg" alt="">
+          <div class="glow-border"></div>
+        </div>
+      </div>
+
+      <div class="mosaic-row invertida">
+        <div class="mosaic-col">
+          <div class="foto-card reveal"><img src="imagens/IMG-20221213-WA0022.jpg" alt="">
+            <div class="glow-border"></div>
+          </div>
+          <div class="foto-card reveal"><img src="imagens/IMG-20220808-WA0021.jpg" alt="">
+            <div class="glow-border"></div>
+          </div>
+        </div>
+        <div class="foto-card grande reveal"><img src="imagens/IMG-20220703-WA0108.jpg" alt="">
+          <div class="glow-border"></div>
+        </div>
+      </div>
+
+      <div class="mosaic-row tres">
+        <div class="foto-card reveal"><img src="imagens/IMG-20220703-WA0106.jpg" alt="">
+          <div class="glow-border"></div>
+        </div>
+        <div class="foto-card reveal"><img src="imagens/IMG-20220702-WA0061.jpg" alt="">
+          <div class="glow-border"></div>
+        </div>
+        <div class="foto-card reveal"><img src="imagens/IMG-20201017-WA0008.jpg" alt="">
+          <div class="glow-border"></div>
+        </div>
+      </div>
+
+      <div class="mosaic-row quatro">
+        <div class="foto-card reveal"><img src="imagens/P_20220101_012411.jpg" alt="">
+          <div class="glow-border"></div>
+        </div>
+        <div class="foto-card reveal"><img src="imagens/IMAGEM.jpg" alt="">
+          <div class="glow-border"></div>
+        </div>
+        <div class="foto-card reveal"><img src="imagens/bf8fae1825ec1db1d5f4d69f52cce8de.jpg" alt="">
+          <div class="glow-border"></div>
+        </div>
+        <div class="foto-card reveal"><img src="imagens/Screenshot_2023-04-23-23-54-15-377_com.whatsapp~2.jpg" alt="">
+          <div class="glow-border"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- MENSAGEM FINAL -->
   <section id="mensagem-final">
     <div class="mensagem-card reveal">
       <div class="coracao-big">🐼💚</div>
@@ -60,10 +206,8 @@
   </a>
 
   <audio id="audio" src="musica.mp3" loop></audio>
-
   <script src="js/auth.js" type="module"></script>
   <script src="js/main.js" type="module"></script>
-  <script src="js/gallery.js" type="module"></script>
 </body>
 
 </html>
