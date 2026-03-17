@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat — Pandinha 🐼</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/chat.css">
+</head>
+<body>
+
+  <div id="chatApp">
+
+    <!-- Header -->
+    <header id="chatHeader">
+      <a href="index.html" class="back-btn">←</a>
+      <div class="header-info">
+        <span class="header-avatar">🐼</span>
+        <div>
+          <strong>Pandinha de Jesus</strong>
+          <span id="typingIndicator" class="typing-text" style="display:none">digitando...</span>
+        </div>
+      </div>
+      <button id="btnLogoutChat" class="btn-logout-sm">Sair</button>
+    </header>
+
+    <!-- Mensagens -->
+    <main id="messageList"></main>
+
+    <!-- Input -->
+    <footer id="chatFooter">
+      <textarea
+        id="msgInput"
+        placeholder="Digite uma mensagem..."
+        rows="1"
+      ></textarea>
+      <button id="sendBtn">➤</button>
+    </footer>
+
+  </div>
+
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script src="js/auth.js" type="module"></script>
+  <script src="js/chat.js" type="module"></script>
+</body>
+</html>

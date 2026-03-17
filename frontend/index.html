@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minha Pandinha de Jesus 🐼</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;700;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+
+  <nav id="navbar">
+    <span class="nav-logo">🐼 Pandinha</span>
+    <div class="nav-links">
+      <a href="index.html" class="active">Início</a>
+      <a href="chat.html">💬 Chat</a>
+      <button id="btnLogout" class="btn-logout">Sair</button>
+    </div>
+    <span id="navUser" class="nav-user"></span>
+  </nav>
+
+  <section id="hero">
+    <div id="centerText">Eu amo a minha Panda 🐼</div>
+    <div id="pandaContainer">
+      <div class="panda-glow"></div>
+      <img id="pandaPlay" src="imagens/panda.png" alt="Panda">
+      <p class="panda-hint">clique para tocar 🎵</p>
+    </div>
+    <div class="scroll-arrow" onclick="document.getElementById('galeria').scrollIntoView({behavior:'smooth'})">
+      <span>↓</span>
+      <p>role pra ver mais</p>
+    </div>
+  </section>
+
+  <section id="galeria">
+    <h2 class="section-title reveal">📸 Nossas Memórias</h2>
+    <div id="fotoGrid" class="foto-grid">
+      <label class="foto-upload-card reveal" id="uploadCard">
+        <span>+</span>
+        <p>Adicionar foto</p>
+        <input type="file" id="fileInput" accept="image/*" style="display:none">
+      </label>
+    </div>
+  </section>
+
+  <section id="mensagem-final">
+    <div class="mensagem-card reveal">
+      <div class="coracao-big">🐼💚</div>
+      <h2>Te amo, minha Panda!</h2>
+      <p>Você é a melhor coisa que aconteceu na minha vida.</p>
+    </div>
+  </section>
+
+  <a href="chat.html" id="chatFab" title="Abrir chat">
+    💬
+    <span id="chatBadge" class="chat-badge" style="display:none">0</span>
+  </a>
+
+  <audio id="audio" src="musica.mp3" loop></audio>
+
+  <script src="js/auth.js" type="module"></script>
+  <script src="js/main.js" type="module"></script>
+  <script src="js/gallery.js" type="module"></script>
+</body>
+
+</html>
