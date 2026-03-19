@@ -1,5 +1,5 @@
 // ⚠️ Troque pela URL do Render após o deploy
-export const API_URL = 'http://localhost:3001';
+export const API_URL = 'https://panda-backend-w02i.onrender.com';
 
 export function requireAuth() {
   const token = localStorage.getItem('token');
