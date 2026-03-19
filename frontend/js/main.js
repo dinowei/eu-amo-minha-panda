@@ -1,62 +1,161 @@
 import { requireAuth, getUser, logout, API_URL } from './auth.js';
 
-// ── Auth guard ───────────────────────────────
 const token = requireAuth();
 const user  = getUser();
 
-// Mostrar nome do usuário
 const navUser = document.getElementById('navUser');
 if (navUser && user) navUser.textContent = `Olá, ${user.name} 👋`;
-
 document.getElementById('btnLogout')?.addEventListener('click', logout);
 
-// ── Cascata de imagens ───────────────────────
-const imagens = Array.from({length:10}, (_,i) => `imagens/img${i+1}.png`);
-
-function criarImagem() {
-  const img = document.createElement('img');
-  img.classList.add('falling');
-  img.src = imagens[Math.floor(Math.random() * imagens.length)];
-  img.style.left = Math.random() * (window.innerWidth - 80) + 'px';
-  const dur = (Math.random() * 5 + 5).toFixed(2);
-  img.style.animationDuration = `${dur}s`;
-  document.body.appendChild(img);
-  img.addEventListener('animationend', () => img.remove());
-}
-
-function iniciarQueda() {
-  criarImagem();
-  setTimeout(iniciarQueda, Math.random() * 800 + 200);
-}
-
-// ── Música ───────────────────────────────────
-const botao = document.getElementById('pandaPlay');
-const audio = document.getElementById('audio');
-
-audio?.play().catch(() => {});
-
-botao?.addEventListener('click', () => {
-  if (audio.paused) {
-    audio.play().then(() => botao.classList.add('playing')).catch(() => {});
-  } else {
-    audio.pause();
-    botao.classList.remove('playing');
-  }
+// ── CURSOR PERSONALIZADO ─────────────────────
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top  = e.clientY + 'px';
 });
 
-audio?.addEventListener('play',  () => botao?.classList.add('playing'));
-audio?.addEventListener('pause', () => botao?.classList.remove('playing'));
+// ── CONTADOR DE DIAS ─────────────────────────
+// ⚠️ Troque pela data de início do relacionamento!
+const INICIO = new Date('2022-07-02T00:00:00');
 
-// ── Scroll reveal ────────────────────────────
-function setupReveal() {
-  const els = document.querySelectorAll('.reveal');
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.12 });
-  els.forEach(el => obs.observe(el));
+function atualizarContador() {
+  const agora = new Date();
+  const diff  = agora - INICIO;
+  const dias  = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const horas = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const min   = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+  document.getElementById('cont-dias').textContent  = dias.toLocaleString('pt-BR');
+  document.getElementById('cont-horas').textContent = String(horas).padStart(2, '0');
+  document.getElementById('cont-min').textContent   = String(min).padStart(2, '0');
 }
 
-// ── Badge de mensagens não lidas ─────────────
+atualizarContador();
+setInterval(atualizarContador, 60000);
+
+// ── PARTÍCULAS ───────────────────────────────
+const canvas = document.getElementById('particles');
+const ctx    = canvas.getContext('2d');
+let particles = [];
+
+function resizeCanvas() {
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+function criarParticula() {
+  return {
+    x:       Math.random() * canvas.width,
+    y:       Math.random() * canvas.height,
+    r:       Math.random() * 2 + 0.5,
+    vx:      (Math.random() - 0.5) * 0.4,
+    vy:      (Math.random() - 0.5) * 0.4,
+    alpha:   Math.random() * 0.6 + 0.2
+  };
+}
+
+for (let i = 0; i < 80; i++) particles.push(criarParticula());
+
+function animarParticulas() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => {
+    p.x += p.vx;
+    p.y += p.vy;
+    if (p.x < 0 || p.x > canvas.width)  p.vx *= -1;
+    if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(44,194,149,${p.alpha})`;
+    ctx.fill();
+  });
+  requestAnimationFrame(animarParticulas);
+}
+
+animarParticulas();
+
+// ── MÚSICA ───────────────────────────────────
+const botao = document.getElementById('pandaPlay');
+const icone = document.getElementById('playIcon');
+const audio = document.getElementById('audio');
+
+document.addEventListener('click', function iniciar() {
+  audio?.play().catch(() => {});
+  document.removeEventListener('click', iniciar);
+}, { once: true });
+
+function atualizarIcone() {
+  icone.textContent = audio.paused ? '▶' : '⏸';
+  audio.paused ? botao.classList.remove('playing') : botao.classList.add('playing');
+}
+
+botao?.addEventListener('click', e => {
+  e.stopPropagation();
+  audio.paused ? audio.play().catch(() => {}) : audio.pause();
+});
+
+audio?.addEventListener('play',  atualizarIcone);
+audio?.addEventListener('pause', atualizarIcone);
+
+// ── LIGHTBOX ─────────────────────────────────
+const lightbox = document.getElementById('lightbox');
+const lbImg    = document.getElementById('lb-img');
+const lbClose  = document.getElementById('lb-close');
+const lbPrev   = document.getElementById('lb-prev');
+const lbNext   = document.getElementById('lb-next');
+
+const cards = [...document.querySelectorAll('.foto-card[data-src]')];
+let lbIndex = 0;
+
+function abrirLightbox(index) {
+  lbIndex = index;
+  lbImg.src = cards[lbIndex].dataset.src;
+  lightbox.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function fecharLightbox() {
+  lightbox.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+cards.forEach((card, i) => {
+  card.addEventListener('click', () => abrirLightbox(i));
+});
+
+lbClose.addEventListener('click', fecharLightbox);
+
+lbPrev.addEventListener('click', () => {
+  lbIndex = (lbIndex - 1 + cards.length) % cards.length;
+  lbImg.src = cards[lbIndex].dataset.src;
+});
+
+lbNext.addEventListener('click', () => {
+  lbIndex = (lbIndex + 1) % cards.length;
+  lbImg.src = cards[lbIndex].dataset.src;
+});
+
+document.addEventListener('keydown', e => {
+  if (!lightbox.classList.contains('open')) return;
+  if (e.key === 'Escape')      fecharLightbox();
+  if (e.key === 'ArrowLeft')   lbPrev.click();
+  if (e.key === 'ArrowRight')  lbNext.click();
+});
+
+lightbox.addEventListener('click', e => {
+  if (e.target === lightbox) fecharLightbox();
+});
+
+// ── SCROLL REVEAL ────────────────────────────
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// ── BADGE CHAT ───────────────────────────────
 async function checkUnread() {
   if (!token) return;
   try {
@@ -66,14 +165,11 @@ async function checkUnread() {
     const data = await res.json();
     const badge = document.getElementById('chatBadge');
     if (badge && data.count > 0) {
-      badge.textContent  = data.count;
+      badge.textContent   = data.count;
       badge.style.display = 'flex';
     }
   } catch {}
 }
 
-// ── Init ─────────────────────────────────────
-iniciarQueda();
-setupReveal();
 checkUnread();
-setInterval(checkUnread, 30000); // verifica a cada 30s
+setInterval(checkUnread, 30000);
