@@ -148,12 +148,77 @@ lightbox.addEventListener('click', e => {
   if (e.target === lightbox) fecharLightbox();
 });
 
-// ── SCROLL REVEAL ────────────────────────────
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.1 });
+// ── SCROLL REVEAL AVANÇADO ───────────────────────
+// 1) Atribuir direções e delays a cada card na galeria
+document.querySelectorAll('.mosaic-row').forEach((row) => {
+  const cols = [...row.children];
+  const total = cols.length;
 
-document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  cols.forEach((col, i) => {
+    const cards = col.classList.contains('foto-card')
+      ? [col]
+      : [...col.querySelectorAll('.foto-card')];
+
+    cards.forEach((card, j) => {
+      // Delay escalonado dentro de cada coluna
+      card.style.setProperty('--delay', `${j * 0.13}s`);
+
+      // Primeira coluna entra da esquerda, última da direita
+      if (total > 1) {
+        if (i === 0)         card.classList.add('from-left');
+        if (i === total - 1) card.classList.add('from-right');
+      }
+    });
+  });
+});
+
+// 2) Observer para cards individuais (reveal + shimmer)
+const obsCards = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const card = e.target;
+    card.classList.add('visible');
+
+    // Dispara shimmer com leve delay extra para sincronizar com o reveal
+    const delay = parseFloat(
+      getComputedStyle(card).getPropertyValue('--delay') || '0'
+    ) * 1000;
+    setTimeout(() => card.classList.add('shimmer'), delay + 80);
+    obsCards.unobserve(card);
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+// 3) Observer para separadores entre linhas
+const obsRows = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('row-visible');
+      obsRows.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.reveal').forEach(el => obsCards.observe(el));
+document.querySelectorAll('.mosaic-row + .mosaic-row').forEach(el => obsRows.observe(el));
+
+// 4) Aurora orb que percorre a galeria conforme o scroll
+const galeria = document.getElementById('galeria');
+if (galeria) {
+  const orb = document.createElement('div');
+  orb.className = 'galeria-orb';
+  galeria.prepend(orb);
+
+  const moveOrb = () => {
+    const rect    = galeria.getBoundingClientRect();
+    const visible = rect.height + window.innerHeight;
+    const gone    = -rect.top;
+    const pct     = Math.max(0, Math.min(1, gone / (visible - window.innerHeight)));
+    orb.style.top = `${8 + pct * 82}%`;
+  };
+
+  window.addEventListener('scroll', moveOrb, { passive: true });
+  moveOrb();
+}
 
 // ── BADGE CHAT ───────────────────────────────
 async function checkUnread() {

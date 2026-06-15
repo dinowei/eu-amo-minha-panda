@@ -1,39 +1,50 @@
-const router  = require('express').Router();
-const multer  = require('multer');
-const path    = require('path');
-const Photo   = require('../models/Photo');
+const fs = require('fs');
+const path = require('path');
+const router = require('express').Router();
+const multer = require('multer');
+const sharp = require('sharp');
+const Photo = require('../models/Photo');
 const protect = require('../middleware/auth');
 
-// Configuração do multer (salva em /uploads)
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, 'uploads/'),
-  filename:    (req, file, cb) => {
-    const unique = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, unique + path.extname(file.originalname));
-  }
-});
+const uploadsDir = path.resolve('uploads');
 
 const upload = multer({
-  storage,
-  limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 10 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
     const allowed = /jpeg|jpg|png|gif|webp/;
     const ok = allowed.test(path.extname(file.originalname).toLowerCase())
-             && allowed.test(file.mimetype);
-    ok ? cb(null, true) : cb(new Error('Somente imagens são permitidas'));
+      && allowed.test(file.mimetype);
+
+    ok ? cb(null, true) : cb(new Error('Somente imagens sao permitidas'));
   }
 });
 
-// POST /api/photos  — upload
 router.post('/', protect, upload.single('photo'), async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ error: 'Nenhum arquivo enviado' });
 
+    fs.mkdirSync(uploadsDir, { recursive: true });
+
+    const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}.webp`;
+    const outputPath = path.join(uploadsDir, filename);
+
+    await sharp(req.file.buffer)
+      .rotate()
+      .resize({
+        width: 1920,
+        height: 1920,
+        fit: 'inside',
+        withoutEnlargement: true
+      })
+      .webp({ quality: 82 })
+      .toFile(outputPath);
+
     const baseUrl = `${req.protocol}://${req.get('host')}`;
     const photo = await Photo.create({
       uploader: req.user.id,
-      url:      `${baseUrl}/uploads/${req.file.filename}`,
-      caption:  req.body.caption || ''
+      url: `${baseUrl}/uploads/${filename}`,
+      caption: req.body.caption || ''
     });
 
     await photo.populate('uploader', 'name');
@@ -43,7 +54,6 @@ router.post('/', protect, upload.single('photo'), async (req, res) => {
   }
 });
 
-// GET /api/photos  — listar todas
 router.get('/', protect, async (req, res) => {
   try {
     const photos = await Photo.find()
@@ -55,13 +65,13 @@ router.get('/', protect, async (req, res) => {
   }
 });
 
-// DELETE /api/photos/:id
 router.delete('/:id', protect, async (req, res) => {
   try {
     const photo = await Photo.findById(req.params.id);
-    if (!photo) return res.status(404).json({ error: 'Foto não encontrada' });
-    if (photo.uploader.toString() !== req.user.id)
-      return res.status(403).json({ error: 'Sem permissão' });
+    if (!photo) return res.status(404).json({ error: 'Foto nao encontrada' });
+    if (photo.uploader.toString() !== req.user.id) {
+      return res.status(403).json({ error: 'Sem permissao' });
+    }
 
     await photo.deleteOne();
     res.json({ ok: true });
