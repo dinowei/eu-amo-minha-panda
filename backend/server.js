@@ -7,17 +7,18 @@ const connectDB  = require('./config/db');
 
 const app    = express();
 const server = http.createServer(app);
+const corsOptions = {
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
+};
 
 // ── Socket.io ──────────────────────────────────────────────
 const io = new Server(server, {
-  cors: {
-    origin: process.env.FRONTEND_URL || '*',
-    methods: ['GET', 'POST']
-  }
+  cors: corsOptions
 });
 
 // ── Middlewares ────────────────────────────────────────────
-app.use(cors({ origin: process.env.FRONTEND_URL || '*' }));
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use('/uploads', express.static('uploads')); // fotos salvas
 
