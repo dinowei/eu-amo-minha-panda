@@ -175,26 +175,25 @@ document.querySelectorAll('.mosaic-row').forEach((row) => {
 // 2) Observer para cards individuais (reveal + shimmer)
 const obsCards = new IntersectionObserver((entries) => {
   entries.forEach(e => {
-    if (!e.isIntersecting) return;
     const card = e.target;
-    card.classList.add('visible');
-
-    // Dispara shimmer com leve delay extra para sincronizar com o reveal
-    const delay = parseFloat(
-      getComputedStyle(card).getPropertyValue('--delay') || '0'
-    ) * 1000;
-    setTimeout(() => card.classList.add('shimmer'), delay + 80);
-    obsCards.unobserve(card);
+    if (e.isIntersecting) {
+      card.classList.add('visible');
+      card.classList.remove('shimmer');
+      const delay = parseFloat(
+        getComputedStyle(card).getPropertyValue('--delay') || '0'
+      ) * 1000;
+      setTimeout(() => card.classList.add('shimmer'), delay + 80);
+    } else {
+      card.classList.remove('visible', 'shimmer');
+    }
   });
 }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
 
 // 3) Observer para separadores entre linhas
 const obsRows = new IntersectionObserver((entries) => {
   entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('row-visible');
-      obsRows.unobserve(e.target);
-    }
+    if (e.isIntersecting) e.target.classList.add('row-visible');
+    else e.target.classList.remove('row-visible');
   });
 }, { threshold: 0.15 });
 
