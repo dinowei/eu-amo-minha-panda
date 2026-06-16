@@ -1,42 +1,41 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chat — Pandinha 🐼</title>
+  <title>Chat - Pandinha</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/chat.css">
 </head>
 <body>
-
   <div id="chatApp">
-
-    <!-- Header -->
     <header id="chatHeader">
-      <a href="index.html" class="back-btn">←</a>
+      <a href="index.html" class="back-btn" aria-label="Voltar">&#8592;</a>
       <div class="header-info">
-        <span class="header-avatar">🐼</span>
-        <div>
+        <div class="avatar-wrap">
+          <span class="header-avatar">&#128060;</span>
+          <span class="online-dot" aria-hidden="true"></span>
+        </div>
+        <div class="header-copy">
           <strong>Pandinha de Jesus</strong>
-          <span id="typingIndicator" class="typing-text" style="display:none">digitando...</span>
+          <div id="typingIndicator" class="typing-indicator" style="display:none" aria-label="Digitando">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          </div>
         </div>
       </div>
-      <button id="btnLogoutChat" class="btn-logout-sm">Sair</button>
+      <button id="btnLogoutChat" class="btn-logout-sm" type="button">Sair</button>
     </header>
 
-    <!-- Mensagens -->
     <main id="messageList"></main>
 
-    <!-- Input -->
     <footer id="chatFooter">
       <textarea
         id="msgInput"
         placeholder="Digite uma mensagem..."
         rows="1"
       ></textarea>
-      <button id="sendBtn">➤</button>
+      <button id="sendBtn" type="button" aria-label="Enviar mensagem">&#10148;</button>
     </footer>
-
   </div>
 
   <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>

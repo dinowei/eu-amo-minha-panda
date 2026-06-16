@@ -8,7 +8,7 @@ router.get('/', protect, async (req, res) => {
     const messages = await Message.find()
       .populate('sender', 'name avatar')
       .sort({ createdAt: 1 })
-      .limit(100);
+      .limit(500);
     res.json(messages);
   } catch (err) {
     res.status(500).json({ error: err.message });

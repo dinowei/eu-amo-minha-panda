@@ -1,39 +1,80 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login — Pandinha 🐼</title>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;700;900&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="css/login.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Pandinha</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/login.css">
 </head>
-
 <body>
-    <div class="login-bg"></div>
+  <div class="login-bg"></div>
 
-    <div class="login-card">
-        <div class="login-logo">🐼</div>
-        <h1>Pandinha de Jesus</h1>
-        <p class="login-sub">Só pra nós dois 💚</p>
+  <div class="login-card">
+    <div class="login-logo">&#128060;</div>
+    <h1>Pandinha de Jesus</h1>
+    <p class="login-sub">So pra nos dois &#128154;</p>
 
-        <div id="errorMsg" class="error-msg" style="display:none"></div>
+    <div id="errorMsg" class="error-msg" style="display:none"></div>
 
-        <div class="input-group">
-            <label>Email</label>
-            <input type="email" id="email" placeholder="seu@email.com" autocomplete="email">
-        </div>
-
-        <div class="input-group">
-            <label>Senha</label>
-            <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
-        </div>
-
-        <button id="btnLogin" class="btn-login">Entrar 💚</button>
+    <div class="input-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="voce@email.com" autocomplete="email">
     </div>
 
-    <script src="js/auth.js" type="module"></script>
-</body>
+    <div class="input-group">
+      <label for="password">Senha</label>
+      <div class="password-field">
+        <input type="password" id="password" placeholder="........" autocomplete="current-password">
+        <button id="togglePassword" class="password-toggle" type="button" aria-label="Mostrar senha">&#128065;</button>
+      </div>
+    </div>
 
+    <button id="btnLogin" class="btn-login" type="button">Entrar &#128154;</button>
+  </div>
+
+  <script>
+    (() => {
+      const passwordInput = document.getElementById('password');
+      const togglePassword = document.getElementById('togglePassword');
+      const errorMsg = document.getElementById('errorMsg');
+      const inputs = [
+        document.getElementById('email'),
+        passwordInput
+      ];
+
+      togglePassword?.addEventListener('click', () => {
+        const nextType = passwordInput.type === 'password' ? 'text' : 'password';
+        passwordInput.type = nextType;
+        togglePassword.setAttribute(
+          'aria-label',
+          nextType === 'password' ? 'Mostrar senha' : 'Esconder senha'
+        );
+      });
+
+      const setErrorState = (active) => {
+        inputs.forEach(input => {
+          input.classList.toggle('input-error', active);
+        });
+      };
+
+      const observer = new MutationObserver(() => {
+        const isVisible = errorMsg.style.display !== 'none' && errorMsg.textContent.trim() !== '';
+        setErrorState(isVisible);
+      });
+
+      observer.observe(errorMsg, {
+        attributes: true,
+        attributeFilter: ['style'],
+        childList: true,
+        subtree: true
+      });
+
+      inputs.forEach(input => {
+        input.addEventListener('input', () => setErrorState(false));
+      });
+    })();
+  </script>
+  <script src="js/auth.js" type="module"></script>
+</body>
 </html>
